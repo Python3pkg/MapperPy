@@ -105,7 +105,7 @@ class DateTimeConversionTest(unittest.TestCase):
         # when
         mapped_object = mapper.map(TestClassSomePropertyEmptyInit1(
             some_property="some_value",
-            some_property_02=unicode(test_datetime.isoformat())))
+            some_property_02=str(test_datetime.isoformat())))
 
         # then
         assert_that(mapped_object).is_instance_of(TestClassSomePropertyEmptyInit2)

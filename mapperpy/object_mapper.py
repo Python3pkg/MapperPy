@@ -142,7 +142,7 @@ class ObjectMapper(object):
         mapping = {}
         rev_mapping = {}
 
-        for left, right in input_mapping.items():
+        for left, right in list(input_mapping.items()):
             if right is None:
                 # user requested to suppress implicit mapping for k
                 mapping[left] = rev_mapping[left] = None

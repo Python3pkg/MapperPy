@@ -149,7 +149,7 @@ class EnumConversionTest(unittest.TestCase):
                                              TestClassSomePropertyEmptyInit2(some_property=SomeEnum.some_enum_02))
 
         # when
-        mapped_object = mapper.map(TestClassSomePropertyEmptyInit1(some_property=unicode('some_enum_01')))
+        mapped_object = mapper.map(TestClassSomePropertyEmptyInit1(some_property=str('some_enum_01')))
 
         # then
         assert_that(mapped_object).is_type_of(TestClassSomePropertyEmptyInit2)
@@ -159,7 +159,7 @@ class EnumConversionTest(unittest.TestCase):
     def test_enum_to_unicode_string_mapping_should_map_to_enum_name(self):
         # given
         mapper = ObjectMapper.from_prototype(TestClassSomePropertyEmptyInit1(),
-                                             TestClassSomePropertyEmptyInit2(some_property=unicode('')))
+                                             TestClassSomePropertyEmptyInit2(some_property=str('')))
 
         # when
         mapped_object = mapper.map(TestClassSomePropertyEmptyInit1(some_property=SomeEnum.some_enum_02))

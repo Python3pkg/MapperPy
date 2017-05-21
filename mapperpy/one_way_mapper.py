@@ -74,7 +74,8 @@ class OneWayMapper(object):
         self.__target_initializers.update(initializers_dict)
         return self
 
-    def options(self, (setting_name, setting_value)):
+    def options(self, xxx_todo_changeme):
+        (setting_name, setting_value) = xxx_todo_changeme
         self.__general_settings[setting_name] = setting_value
         return self
 
@@ -103,7 +104,7 @@ class OneWayMapper(object):
     def __apply_initializers(self, source_obj):
         initialized_params_dict = {}
 
-        for attr_name, init_func in self.__target_initializers.items():
+        for attr_name, init_func in list(self.__target_initializers.items()):
             initialized_params_dict[attr_name] = init_func(source_obj)
 
         return initialized_params_dict
@@ -112,7 +113,7 @@ class OneWayMapper(object):
 
         mapped_params_dict = {}
 
-        for attr_name_from, attr_name_to in attr_name_mapping.items():
+        for attr_name_from, attr_name_to in list(attr_name_mapping.items()):
             # skip since mapping is suppressed by user (attribute_name = None)
             if not (attr_name_from and attr_name_to):
                 continue
@@ -162,9 +163,9 @@ class OneWayMapper(object):
             return cls.__get_conversion_from_enum(attr_value, to_type)
         elif issubclass(to_type, Enum):
             return cls.__get_conversion_to_enum(attr_value, from_type, to_type)
-        elif issubclass(from_type, datetime) and issubclass(to_type, basestring):
+        elif issubclass(from_type, datetime) and issubclass(to_type, str):
             return cls.__get_conversion_from_datetime(attr_value)
-        elif issubclass(from_type, basestring) and issubclass(to_type, datetime):
+        elif issubclass(from_type, str) and issubclass(to_type, datetime):
             return cls.__get_conversion_to_datetime(attr_value)
         return attr_value
 
@@ -187,7 +188,7 @@ class OneWayMapper(object):
     def __get_conversion_to_enum(cls, attr_value, from_type, to_enum_type):
         if from_type == int:
             return to_enum_type(attr_value)
-        elif issubclass(from_type, basestring):
+        elif issubclass(from_type, str):
             # this tries to get enum item from Enum class
             return getattr(to_enum_type, attr_value)
         return attr_value
@@ -196,7 +197,7 @@ class OneWayMapper(object):
     def __get_conversion_from_enum(cls, attr_value, to_type):
         if to_type == int:
             return attr_value.value
-        elif issubclass(to_type, basestring):
+        elif issubclass(to_type, str):
             return attr_value.name
         return attr_value
 
@@ -257,7 +258,7 @@ class OneWayMapper(object):
     def __get_attributes(cls, obj):
 
         if isinstance(obj, dict):
-            return obj.keys()
+            return list(obj.keys())
 
         attributes = inspect.getmembers(obj, lambda a: not(inspect.isroutine(a)))
         return [attr[0] for attr in attributes if not(attr[0].startswith('__') and attr[0].endswith('__'))]
